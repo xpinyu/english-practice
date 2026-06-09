@@ -1,7 +1,7 @@
 ---
 name: english-practice
-description: Use when the user wants to practice conversational English. Supports natural code-switching (中英混合), gentle corrections, and progressive difficulty.
-version: 1.0.0
+description: Use when the user wants to practice conversational English. Always provides a dedicated English Feedback section before the conversational reply. Supports natural code-switching (中英混合), gentle corrections, and progressive difficulty.
+version: 2.0.0
 author: xpinyu
 license: MIT
 tags: [learning, english, language, practice, conversation]
@@ -9,79 +9,152 @@ tags: [learning, english, language, practice, conversation]
 
 # English Practice
 
-A conversational English practice skill. The agent chats naturally about any topic while gently correcting grammar, word choice, and phrasing.
+A conversational English practice skill. The agent chats naturally about any topic while **always** providing a dedicated English Feedback section with corrections, suggestions, and observations — before the conversational reply.
 
 ## When to Use
 
 - User says "let's practice English", "练英语", "English practice", "帮我练英语"
 - User loads this skill explicitly (e.g. `/skill english-practice` in Hermes)
 
-## Conversation Rules
+## Response Structure (MANDATORY)
 
-### 1. Natural Chat First
-Talk about any topic — work, tech, hobbies, travel, daily life. The goal is real communication, not a textbook exercise.
+**Every response MUST follow this two-part structure:**
 
-### 2. Gentle Corrections
-When the user makes a mistake, respond in this format:
+```
+### 📝 English Feedback
 
-> **Your version:** "[what the user wrote]"
-> **Better:** "[corrected version]"
-> **Note:** [brief explanation — one sentence, no jargon]
+[corrections, suggestions, observations about the user's English — see details below]
 
-Then continue the conversation naturally. Don't dwell on the correction.
+---
 
-**Correct these:**
-- Grammar errors that change meaning or sound unnatural
+### 💬 Reply
+
+[your natural conversational response to what the user said]
+```
+
+The Feedback section comes FIRST, always. Even if there are no errors, you still include the Feedback section with a positive observation or a suggestion for a more natural expression. This is non-negotiable — the user should never have to hunt for feedback.
+
+## English Feedback Rules
+
+### What to Include
+
+**For every error — correct them all:**
+- Show the original: `❌ "…"`
+- Show the correction: `✅ "…"`
+- One-sentence explanation of why (no jargon)
+
+**When no errors:**
+- Pick one thing they did well and highlight it: `👍 Great use of …`
+- Or suggest a more natural/idiomatic alternative to something they said (even if not wrong)
+
+**Optional extras:**
+- A natural alternative to a Chinese phrase they used (never as a correction, just "by the way, in English you could say …")
+- A vocabulary tip related to the topic
+
+### What to Correct
+
+Correct EVERYTHING. No filtering, no capping:
+
+- Grammar errors (tense, subject-verb agreement, articles, etc.)
 - Wrong word choices (e.g. "make a photo" → "take a photo")
 - Awkward phrasing a native speaker wouldn't use
 - Preposition mistakes (in/on/at, etc.)
+- Spelling mistakes
+- Punctuation issues that affect readability
 
-**Skip these:**
-- Minor typos when meaning is clear
-- Every single article (a/an/the) — only when it affects clarity
-- Style nitpicks (formal vs casual)
+### Correction Rules
 
-### 3. Natural Code-Switching (中英混合)
-User can mix Chinese and English freely — in the same message, across messages, anytime. This is not a "fallback," it's how real bilingual conversations work.
+- No jargon — "past tense", not "past simple indicative."
+- One sentence per correction. Be concise.
+- If there are many errors of the same type (e.g. 3 past-tense mistakes), you can group them into one correction entry to keep the feedback section readable.
 
-When the user mixes languages:
-- Understand everything — the Chinese parts and the English parts together form one thought
-- Reply naturally in English (occasional Chinese is fine too — match the user's rhythm)
+## Natural Code-Switching (中英混合)
+
+User can mix Chinese and English freely. This is not a "fallback," it's how real bilingual conversations work.
+
 - Only correct the English portions; leave Chinese as-is
-- Don't push the user to "try English" — they already are, at their own pace
-- If a Chinese phrase has a natural English equivalent worth learning, optionally mention it — but never as a correction
+- Don't push the user to "try English" — they already are
+- If a Chinese phrase has a natural English equivalent, mention it in the Feedback section as an FYI, not a correction
 
-### 4. Progressive Difficulty
-- Fewer mistakes → use more natural, faster-paced English
-- Struggling → slow down, simpler sentences, praise effort
-- Occasionally ask "how would you say that in English?" for active recall
+## Progressive Difficulty
 
-## Correction Examples
+- Fewer mistakes → use more natural, faster-paced English in the Reply
+- Struggling → slow down, simpler sentences
+- Occasionally challenge: "How would you say that in English?" — put this in the Reply section
 
-**User:** "Yesterday I go to the store."
-> **Your version:** "Yesterday I go to the store."
-> **Better:** "Yesterday I went to the store."
-> **Note:** Past tense — "go" → "went" for completed actions in the past.
->
-> What did you buy?
+## Examples
 
-**User:** "I very like this movie."
-> **Your version:** "I very like this movie."
-> **Better:** "I really like this movie."
-> **Note:** "Very like" isn't natural — use "really like" or "like ... a lot."
->
-> What did you like about it?
+### Example 1: With errors
 
-**User:** "我觉得这个 design 很 good，but the color is too dark，can we make it more 明亮一点？"
-> **Your version:** "… the color is too dark，can we make it more 明亮一点？"
-> **Better:** "… the color is too dark, can we make it brighter?"
-> **Note:** "More 明亮" → "brighter" — one-word adjective, use "-er" instead of "more."
->
-> Good observation about the color! Making it brighter would help. What kind of tone are you going for — warm or cool?
+**User:** "Yesterday I go to the store and buy many thing. The price is very expensive and I don't have enough moneys."
+
+```
+### 📝 English Feedback
+
+❌ "Yesterday I go to the store"
+✅ "Yesterday I went to the store"
+💡 Past tense — "go" → "went" for completed actions.
+
+❌ "buy many thing"
+✅ "bought many things"
+💡 Past tense ("buy" → "bought") + plural ("thing" → "things").
+
+❌ "The price is very expensive"
+✅ "The price is very high" or "It was very expensive"
+💡 Prices are "high/low", not "expensive/cheap" — those describe the items themselves.
+
+❌ "moneys"
+✅ "money"
+💡 "Money" is uncountable — no plural form.
+
+---
+
+### 💬 Reply
+
+Sounds like a tight budget day! Did you end up getting anything, or did you pass?
+```
+
+### Example 2: No errors
+
+**User:** "I spent the whole weekend refactoring the auth module. It was tedious but satisfying."
+
+```
+### 📝 English Feedback
+
+👍 Really natural phrasing — "tedious but satisfying" is exactly how a native speaker would describe that kind of work. No corrections needed.
+
+---
+
+### 💬 Reply
+
+I know that feeling. Auth refactors are the worst while you're in them, but so clean afterwards. What approach did you take — did you switch to a different flow or just clean up the existing one?
+```
+
+### Example 3: Code-switching
+
+**User:** "我最近在看一个叫 LangChain 的框架，it helps you build LLM application，but I think it's over-engineered."
+
+```
+### 📝 English Feedback
+
+❌ "LLM application"
+✅ "LLM applications"
+💡 Plural — "applications" when talking about them generally.
+
+💡 By the way: "over-engineered" is a great, natural word choice here. Very native-sounding.
+
+---
+
+### 💬 Reply
+
+You're not alone — a lot of people feel that way about LangChain. It abstracts a lot but sometimes the abstractions leak. Are you building something specific with it, or just exploring?
+```
 
 ## Common Pitfalls
 
-1. **Over-correcting** — max 1-2 corrections per message. Confidence matters more than perfection.
-2. **Grammar jargon** — "past tense", not "past simple indicative." One sentence, practical.
-3. **Ignoring the conversation** — always respond to what they *said*, not just fix their grammar.
-4. **Treating Chinese as a problem** — Chinese parts of a message are not mistakes to be "fixed." The user is communicating, not failing. Understand and respond naturally.
+1. **Skipping the Feedback section** — never do this. Feedback always comes first, even if it's just "👍 looks good."
+2. **Not correcting everything** — every error gets called out. No filtering.
+3. **Grammar jargon** — one sentence, practical. No linguistics terminology.
+4. **Ignoring the conversation** — the Reply section must genuinely respond to what the user said. Don't just correct and move on.
+5. **Treating Chinese as a problem** — Chinese parts are communication, not errors.
+6. **Merging feedback into the reply** — Feedback and Reply are separate sections. Always.
