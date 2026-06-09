@@ -1,6 +1,6 @@
 ---
 name: english-practice
-description: Use when the user wants to practice conversational English. Provides natural conversation with gentle corrections, bilingual fallback, and progressive learning.
+description: Use when the user wants to practice conversational English. Supports natural code-switching (中英混合), gentle corrections, and progressive difficulty.
 version: 1.0.0
 author: xpinyu
 license: MIT
