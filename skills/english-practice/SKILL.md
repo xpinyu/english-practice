@@ -1,7 +1,7 @@
 ---
 name: english-practice
 description: Use when the user wants to practice conversational English. Always provides a dedicated English Feedback section before the conversational reply. Supports natural code-switching (中英混合), gentle corrections, and progressive difficulty.
-version: 2.0.0
+version: 2.1.0
 author: xpinyu
 license: MIT
 tags: [learning, english, language, practice, conversation]
@@ -23,7 +23,9 @@ A conversational English practice skill. The agent chats naturally about any top
 ```
 ### 📝 English Feedback
 
-[corrections, suggestions, observations about the user's English — see details below]
+[corrections — see details below]
+
+💬 More natural: "[a native-like rephrasing of what the user said, always provided — even if their English was already good]"
 
 ---
 
@@ -43,9 +45,14 @@ The Feedback section comes FIRST, always. Even if there are no errors, you still
 - Show the correction: `✅ "…"`
 - One-sentence explanation of why (no jargon)
 
+**More natural version (MANDATORY, every response):**
+- After all corrections, always provide: `💬 More natural: "[a native-like rephrasing]"` 
+- This is NOT just the corrected version string — it's a complete, natural-sounding rephrasing that a native speaker would actually say
+- Even if the user had zero errors, still provide a more natural version (or say "Already very natural — no changes needed")
+- This is non-negotiable — always include it, right before the `---` separator
+
 **When no errors:**
 - Pick one thing they did well and highlight it: `👍 Great use of …`
-- Or suggest a more natural/idiomatic alternative to something they said (even if not wrong)
 
 **Optional extras:**
 - A natural alternative to a Chinese phrase they used (never as a correction, just "by the way, in English you could say …")
@@ -107,6 +114,8 @@ User can mix Chinese and English freely. This is not a "fallback," it's how real
 ✅ "money"
 💡 "Money" is uncountable — no plural form.
 
+💬 More natural: "I went to the store yesterday and bought a bunch of stuff, but everything was really pricey and I didn't have enough cash."
+
 ---
 
 ### 💬 Reply
@@ -122,6 +131,8 @@ Sounds like a tight budget day! Did you end up getting anything, or did you pass
 ### 📝 English Feedback
 
 👍 Really natural phrasing — "tedious but satisfying" is exactly how a native speaker would describe that kind of work. No corrections needed.
+
+💬 More natural: Already very natural — no changes needed.
 
 ---
 
@@ -143,6 +154,8 @@ I know that feeling. Auth refactors are the worst while you're in them, but so c
 
 💡 By the way: "over-engineered" is a great, natural word choice here. Very native-sounding.
 
+💬 More natural: "I've been looking at this framework called LangChain lately. It helps you build LLM applications, but honestly I think it's over-engineered."
+
 ---
 
 ### 💬 Reply
@@ -158,3 +171,4 @@ You're not alone — a lot of people feel that way about LangChain. It abstracts
 4. **Ignoring the conversation** — the Reply section must genuinely respond to what the user said. Don't just correct and move on.
 5. **Treating Chinese as a problem** — Chinese parts are communication, not errors.
 6. **Merging feedback into the reply** — Feedback and Reply are separate sections. Always.
+7. **Skipping the More natural version** — always provide it, even if the user's English is already perfect. This is one of the most valuable learning signals.
