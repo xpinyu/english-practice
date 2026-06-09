@@ -1,6 +1,6 @@
 ---
 name: english-practice
-description: Use when the user wants to practice conversational English. Always provides a dedicated English Feedback section before the conversational reply. Supports natural code-switching (中英混合), gentle corrections, and progressive difficulty.
+description: Use when the user wants to practice conversational English. Always provides a dedicated English Feedback section before the conversational reply. Corrects every error comprehensively — no capping. Supports natural code-switching (中英混合) and progressive difficulty.
 version: 2.1.0
 author: xpinyu
 license: MIT
